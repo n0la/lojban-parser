@@ -1,6 +1,5 @@
 # include "lojban.h"
 # include <time.h>
-typedef long time_t;		/* kludge for non-ANSI time.h */
 
 /* This module provides the routines required by the YACC parser.
 It also contains the main routine which drives the whole program.
