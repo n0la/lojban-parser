@@ -1,0 +1,28 @@
+	COPYRIGHT 1989,1990,1991,1992,1993 THE LOGICAL LANGUAGE
+	GROUP, INC.  CONTACT THAT ORGANIZATION AT:
+		2904 BEAU LANE
+		FAIRFAX VA 22031 USA
+		703-385-0273
+	
+	PERMISSION TO COPY GRANTED SUBJECT TO YOUR VERIFICATION THAT
+	THIS IS THE LATEST VERSION OF THE LOJBAN PARSER, THAT YOUR
+	DISTRIBUTION BE FOR PROMOTION OF LOJBAN, THAT THERE IS NO
+	CHARGE FOR THE PRODUCT, AND THAT THIS COPYRIGHT NOTICE IS
+	INCLUDED INTACT IN THE COPY.
+	
+	PERMISSION GRANTED FOR USE IN DERIVED WORKS PROVIDED THAT
+	THE FACTS OF DERIVATION IS STATED, AND PROVIDING THE NAME
+	AND ADDRESS OF THE LOGICAL LANGUAGE GROUP, INC.  IS PROVIDED
+	AS A SOURCE OF FURTHER INFORMATION ABOUT THE GRAMMAR AND
+	ABOUT LOJBAN.
+
+This parser is being made available without charge by the Logical
+Language Group for the purpose of broadening interest in the use
+of the constructed human language "Lojban - A Realization Of Loglan".
+You are urged to send contributions to the above address in support
+of this parser and the development of the Lojban language.
+
+Further information about Lojban can be gotten by anonymous FTP
+at casper.cs.yale.edu:/pub/lojban, or by contacting <lojbab@access.digex.net>.
+To subscribe to the Lojban mailing list, send "sub lojban <your full name>"
+to <listserv@cuvmb.cc.columbia.edu>.

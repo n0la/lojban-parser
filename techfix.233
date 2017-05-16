@@ -1,0 +1,1163 @@
+Proposed Changes 1-33 to the 2nd Baseline Lojban Grammar
+
+[Terminology note:  Ek, JEk, GIhEk, ZIhEk, GUhEk, JOIk, etc., refer to the
+sets of logical/non-logical connectives of the appropriate type, and their
+compounds that involve negation of either the preceding or following term
+(or scalar negation of the connective in the case of JOI).  This is a useful
+shorthand when talking about these families of compounds that are functionally
+identical in the grammar.]
+
+Executive Summary:
+
+1)	Change Ek+KE and GIhEk+KE to lowest precedence
+2)	Add JEk+BO construction
+3)	Add various new free modifier locations
+4)	Add ZEI compounds
+5)	Allow observative after GI in forethought connected sentences
+6)	Regularize BOI with free modifiers
+7)	Simplify relative-clause connection to "zi'e" only
+8)	Allow I+BO at the beginning of text
+9)	Allow bare NAI at the beginning of text
+10)	Allow any kind of JOI in forethought
+11)	Remove POhO
+12)	Allow full selbri after NIhE
+13)	Disallow NAhE in forethought termsets
+14)	Allow multiple I or I+BO at the beginning of text
+15)	Allow conversion of abstract and negated selbri
+16)	Allow ZAhO+NAI for contradictory negation of event contours
+17)	Merge LUhI into LAhE; make NAhE+BO equivalent to LAhE
+18)	Merge BRODA and LEhAVLA into BRIVLA
+19)	Regularize rule names in YACC and BNF versions and update comments
+20)	Revise grammar of relative clause incorporation in sumti
+21)	ANNULLED
+22)	Change description of Step 5 in preparsing to match reality
+23)	Allow CUhE to be logically connected to other tenses; forbid NAhE+KI
+24)	Allow KI after CAhA (and including it) rather than before
+25)	Disallow NA [tag] after CO in inverted tanru
+26)	Allow only selbri rather than bridi-tail after NAhU
+27)	Allow I, I+BO, NIhO after TUhE
+28)	Create NAU+tag as a non-logical conenctive (probably ANNULLED)
+29)	Change MAhO from lerfu-to-operator conversion to mekso-to-operator
+30)	Allow afterthought JOI in termsets
+31)	Allow JOI+BO and JOI+KE parallel to E+BO, JE+BO, and JE+KE
+32)	Allow JAI without following tag, as unclefter
+33)	Move figurative markers PEhA and POhA to UI
+
+
+CHANGE 1
+
+CURRENT LANGUAGE:
+
+Currently, the logical connective constructs Ek+KE (and GIhEk+KE) have
+higher precedence (bind more tightly) than either Ek+BO (GIhEk+BO) or
+Ek(GIhEk) constructs.
+
+PROPOSED CHANGE:
+
+Give Ek+KE (GIhEk+KE) the lowest precedence among Eks (GIhEks).
+
+RATIONALE:
+
+In 1987 (NB3 = Notebook 3 TLI) Loglan, the equivalent of Ek+KE and GIhEk+KE
+had low precedence.  In the first Lojban baseline, Ek+KEs had been changed
+to high precedence, and in the second baseline, GIhEk+KEs were changed to
+follow.  In writing the logical connective paper, considering constructs
+like
+
+	A .e B .ake C .e D
+
+suggested that the most reasonable interpretation is:
+
+	(A .e B) .ake (C .e D)
+
+Therefore, this change restores the original Loglan situation, which
+supports that grouping.
+
+
+CHANGE 2
+
+CURRENT LANGUAGE:
+
+Currently, there is no way to group tanru components logically in pure
+afterthought.  The only alternatives are:
+
+	X je Y ja Z
+
+which groups left to right as
+
+	(X je Y) ja Z
+
+and
+
+	X je ke Y ja Z [ke'e]
+
+which groups right to left as
+
+	X je (ke Y ja Z [ke'e])
+
+but is a hybrid of forethought and afterthought.
+
+PROPOSED CHANGE:
+
+Allow
+
+	X je (Y ja bo Z)
+
+analogously to
+
+	A .e (B .abo C)
+
+in sumti.
+
+RATIONALE:
+
+Uniformity and flexibility.
+
+
+CHANGE 3
+
+PROPOSED CHANGE:
+
+Allow free modifiers (such as subscripts, vocatives, and metalinguistic
+comments) in the following new places:
+	after LOhO when not elided
+	after LAhE for both sumti and MEX operands
+	after CO
+	after CEI
+	after NU[NAI]
+	after NA preceding a selbri or a GEk-bridi-tail
+	after NAhE BO
+	after NAhE, except in tenses and within NAhE+BO
+		(which are lexer compounds)
+	after TUhE
+	after TEhU when not elided
+
+RATIONALE:
+
+Increased flexibility.
+
+
+CHANGE 4
+
+CURRENT LANGUAGE:
+
+There is no way to construct lujvo that involve le'avla or cmavo, unless the
+cmavo have been assigned rafsi.
+
+PROPOSED CHANGE:
+
+Add the metalinguistic cmavo "zei" (selma'o ZEI) which will join the word
+before it and the word after it into a construct treated by the parser as
+of selma'o BRIVLA.  More than two words can be joined by using multiple
+"zei"s.  The words "zo", "zoi", "la'o", "lo'u", "le'u", and "fa'o" cannot
+participate, since they are delimiters of quoted text, which will be
+resolved by the lexer before compounding with "zei".
+
+RATIONALE:
+
+Other methods of incorporating le'avla into lujvo are extremely error-prone
+and subject to a multitude of special-case tests.  No method of incorporating
+cmavo into lujvo has ever existed, encouraging speculative assignment of
+rafsi to cmavo that might be used in lujvo.  (TLI Loglan allows incorporating
+lerfu into compounds using a 'magic' compounding method.)
+
+
+CHANGE 5
+
+CURRENT LANGUAGE:
+
+It is not currently grammatical to say:
+	ge mi klama le zarci gi klama fa mi le zdani
+
+PROPOSED CHANGE:
+
+Allow logically connected sentences wherein the first sentence has terms
+before the selbri but the second one does not.  (The reverse situation is
+still forbidden, because it looks like bridi-tail connection to a LALR(1)
+parser.)
+
+RATIONALE:
+
+The previous restriction was arbitrary and unnecessary.
+
+
+CHANGE 6
+
+CURRENT LANGUAGE:
+
+"boi" gets special treatment unlike that of all other elidables.  In all
+other cases, free modifiers may optionally appear after the elidable
+terminator (in which case it can't be elided).  Free modifiers must be
+placed before "boi", however, because "boi" is used to terminate subscripts,
+and subscripts are a species of free modifier.
+
+PROPOSED CHANGE:
+
+Regularize the rules for "boi" so that it takes free modifiers after it,
+except that no free modifiers at all are permitted on a "boi" that terminates
+a subscript.  ("ve'o" already has this split personality:  no free modifiers
+if it is terminating a subscript, but allowed otherwise.)
+
+RATIONALE:
+
+Simplicity and regularity.  A new convention is needed for subscripts on
+subscripts, however; so we simply declare that consecutive subscripts are
+taken to be nested.
+
+
+CHANGE 7
+
+CURRENT LANGUAGE:
+
+Multiple relative clauses can only be placed on a single sumti by connecting
+them with logical connectives, namely ZIhEks.
+
+PROPOSED CHANGE:
+
+Eliminate ZIhEks except for a single cmavo, "zi'e" of selma'o ZIhE, which
+places two relative clauses on the same sumti but does not count as a
+logical connection.
+
+RATIONALE:
+
+There is some doubt whether any of the ZIhEks make sense other than "zi'e",
+which puts both relative clauses into effect.  Unlike other logical
+connectives, ZIhEks cannot be split up into multiple sentences.  The
+existing implementation of ZIhEks was incomplete, and did not allow the full
+functionality of other logical connectives, and there is no easy way to make
+them work.  Analysis shows that the most likely combinations of relative
+clauses can be easily expressed with other types of logical connectives
+within a single relative clause.  The only restriction this places on the
+language is the as-yet-unused situation of a non-AND connection between two
+relatives of different types (restrictive and non-restrictive).
+
+COUNTER-ARGUMENT (Mark Shoulson):
+
+This one I have some trouble with.  I'll concede that in most
+cases, GIhEks and the like within the relative clause will suffice for
+logical connection, but there are some things that we lose by dropping
+ZIhEks.  For one thing, how could we do logical connections (other than
+"AND", of course) between restrictive and non-restrictive clauses?  Granted,
+I can't think of much of an application for such an animal, but it may be a
+needed construct.
+
+Also, we lose logical connections between NOI phrases and GOI descriptions.
+This one actually has applications.  For example, a system of locking things
+on many MUDs (Multi-User Dimensions:  text-based, multi-user, user-extensible
+thingies that are sort of adventure games or chat programs, or something in-
+between, depending on how people choose to use them) often works with methods
+like "A person who is carrying the key, or who is Herman, can pass through
+this door."  In the old method, this is neatly done with "lo prenu poi ponse
+le ckiku zi'apo'u la xerman. cuka'e pagre levi vorme".  No muss, no fuss.
+In the new method, we'd have to expand out the "po'u" to get "lo prenu
+poi ponse le ckiku gi'a du la xerman. li'u", which granted is okay, but
+loses the whole point of having "po'u" in the first place (it can always be
+expanded).  (Actually, an even more Lojbanic translation, in the old grammar,
+would be "lo prenu pe le ckiku zi'apo'u la xerman.", taking advantage of the
+symmetrical nature of "pe").
+
+REJOINDER:
+
+Mark has presented the first useful rationale for "zi'a" that I have ever
+seen:  "poi broda zi'a po'u la xerman."  Nonetheless, I still think that the
+logical problems of "poi broda zi'V noi brode" are overwhelming; if we were
+going to split up NOI and POI (and GOI and PO) into separate selma'o, there
+might be a rationale, but we aren't.
+
+
+CHANGE 8
+
+CURRENT LANGUAGE:
+
+Currently, a text can begin with a bare ".i" or an I+JEk, but not with an
+".ibabo".
+
+PROPOSED CHANGE:
+
+Allow I+BO, I+JEk+BO, I+tense+BO, and I+JEk+tense+BO at the beginning of
+text.
+
+RATIONALE:
+
+Allows people to complete each other's expressions by adding causals,
+presuppositions, and the like.
+
+
+CHANGE 9
+
+CURRENT LANGUAGE:
+
+Theoretically a text may begin with "nai", and this bare "nai" is taken as
+attitudinal.  However, the parser does not currently handle bare initial
+"nai" in embedded texts within quotes or parentheses.
+
+PROPOSED CHANGE:
+
+Allow bare initial "nai" explicitly within the grammar rather than as a
+preparser hack.
+
+RATIONALE:
+
+Uniformity and consistency.
+
+
+CHANGE 10
+
+CURRENT LANGUAGE:
+
+Forethought JOIks (also known as JOIGIks) are restricted in their syntax.
+In particular, GAhO brackets are not permitted in forethought.
+
+PROPOSED CHANGE:
+	
+Permit any sort of JOIk, so that JOIGIks are any JOIk + "gi".
+
+RATIONALE:
+
+Simplicity and uniformity, plus the ability to specify GAhO brackets on
+forethought intervals.
+
+
+CHANGE 11
+
+CURRENT LANGUAGE:
+
+Three kinds of fragmentary utterances (bare I with or without JEk or modal,
+bare number, bare NA) currently have a special terminator "po'o" (of selma'o
+POhO).  This terminator is always elidable.
+
+PROPOSED CHANGE:
+
+Remove POhO.
+
+RATIONALE:
+
+Earlier versions of the grammar required POhO, possibly due to an
+implementation weakness in the YACC version used in developing that grammar.
+It is never necessary because it can always be elided, so it serves no
+purpose except to clutter the grammar.
+
+
+CHANGE 12
+
+CURRENT LANGUAGE:
+
+Only a restricted form of selbri (simple selbri plus optional linked sumti)
+are currently allowed after NIhE.
+
+PROPOSED CHANGE:
+
+Allow any kind of selbri.
+
+RATIONALE:
+
+The former restriction was meant to remove ambiguity, but now that the TEhU
+delimiter has been introduced, it does the necessary job, and so a full
+selbri is permissible.  This grammar is also parallel to that of MOhE, which
+allows a full sumti.
+
+
+CHANGE 13
+
+CURRENT LANGUAGE:
+
+In forethought termsets, a NAhE is allowed just after the NUhI.
+
+PROPOSED CHANGE:
+
+Disallow this NAhE.
+
+RATIONALE:
+
+Nobody can figure out what it might mean to have a scalar negation of a
+termset, a construct which currently exists solely to implement a certain
+kind of logical connection. What does it mean to scalar-negate not a term
+but the logical connection of two or more terms?
+
+COUNTER-ARGUMENT:
+
+Change 30 makes explicit the use of non-logical connectives in termsets,
+and scalar negation of such non-logical termsets makes some sense, possibly
+enough to justify the status quo, even though no usage has yet been found
+to support it.
+
+STATUS:
+
+This change has been incorporated in the current draft of the new baseline,
+but will be reconsidered at least once before final baseline for book
+publication.  If any Lojbanists can propose an authentic use for the
+construct, this will be considered in the final decision.
+
+
+CHANGE 14
+
+CURRENT LANGUAGE:
+
+Only a single instance of I or I+BO (and their related compounds) is allowed
+at the beginning of text (per change 8 above).
+
+PROPOSED CHANGE:
+
+Allow multiple Is or I+BOs consecutively.
+
+RATIONALE:
+
+Symmetry and simplicity.  With the elimination of POhO, multiple Is are now
+allowed at the end of texts and between sentences.
+
+
+CHANGE 15
+
+CURRENT LANGUAGE:
+
+It is not possible to convert an abstract selbri [NU + bridi] or one that
+has been (scalar) negated [NAhE + selbri].
+
+PROPOSED CHANGE:
+
+Allow these forms.  The place structure of [NAhE + selbri] is that of the
+original selbri.
+
+RATIONALE:
+
+Simplicity and uniformity.
+
+
+CHANGE 16
+
+CURRENT LANGUAGE:
+
+PU and FAhA allow -NAI for contradictory negation.  This is not very useful
+on tenses (punai = na pu), but very useful for sumti tcita to deny that the
+relationship holds.  ZAhO cannot take -NAI, although it is also useful as a
+sumti tcita.
+
+PROPOSED CHANGE:
+
+Allow ZAhO+NAI.
+
+RATIONALE:
+
+Consistency and general usefulness:
+	mi morsi ca'onai le nu mi jmive
+	I am dead, but it is not the case that this is so during my life.
+
+
+CHANGE 17
+
+CURRENT LANGUAGE:
+
+There are three kinds of qualifiers which can be prefixed to a sumti, giving another
+sumti:
+	LAhE provides indirect reference, indirect discourse, and
+		sumti raising;
+
+	LUhI changes sumti between individuals, sets, and masses;
+
+	[NAhE+BO] provides sumti scalar negation.
+
+LUhI has terminator LUhU; the others have no terminators.  LAhE is also
+allowed on mekso operands.
+
+PROPOSED CHANGE:
+
+Merge LAhE and LUhI into a single selma'o, with the current grammar of LUhI
+but named LAhE (for compatibility with the past).  Allow the same grammar
+for sumti and for MEX operands.  Change NAhE+BO grammar to be the same as
+LAhE, thus allowing it on operands as well.
+
+RATIONALE:
+
+Proposed changes to the sumti grammar (including Change 20 below) make LAhE
+and NAhE+BO messy without terminators.  Merging them with LUhI allows
+greater generality (expanding the expressiveness of the langauge) and
+simplicity, without needing to add a new terminator.  NAhE+BO is a compound
+and cannot be merged directly, but can be made grammatically equivalent.
+
+
+CHANGE 18
+
+CURRENT LANGUAGE:
+
+Technically, brivla fall into three selma'o:  LEhAVLA (for le'avla), BRODA
+(for broda/brode/brodi/brodo/ brodu), and BRIVLA (for everything else).
+
+PROPOSED CHANGE:
+
+Merge LEhAVLA and BRODA into BRIVLA.
+
+RATIONALE:
+
+The grammar is identical and the machine parser has never bothered to make
+the distinction anyway.  It is a relic of long-ago pre-baseline versions.
+
+
+CHANGE 19
+
+PROPOSED CHANGE:
+
+Various rule names:
+	bri_string -> selbri
+	bri_unit -> tanru_unit
+	header_terms -> prenex
+	utt_string -> paragraph
+	cmene_A_404 -> cmene_404
+	Ekroot -> Ek_root
+	no_FIhO_PU_mod -> simple_tag
+	sentenceA -> sentence_A
+	indicators_412 -> indicators_A_412
+	bridi_valsi_408 -> bridi_valsi_A_408
+	JOIk_JEk_957 -> simple_JOIk_JEk_957
+	PA_812 -> number_812
+	PA_root_961 -> number_root_961
+	BY_string_817 -> lerfu_string_817
+	BY_string_A_986 -> lerfu_string_root_986
+	modal_972 -> simple_tense_aspect_972
+	modal_A_973 -> simple_tense_aspect_A_973
+	modal_B_974 -> modal_974
+	modal_C_975 -> modal_A_975
+	BY_987 -> lerfu_word_987
+	space_time_* -> space_*
+		(where "*" stands for each of several letters)
+	interval_mod_1050 -> interval_modifier_1050
+	interval_prop_1051 -> interval_property_1051.
+
+RATIONALE:
+
+Consistency between the YACC grammar and the E-BNF version and other
+documents.  Also, this results in no two rules differing only in number.
+(Some rules have the same names as selma'o, though.)
+
+
+CHANGE 20
+
+CURRENT LANGUAGE:
+
+(See JL18 text article!)
+
+Relative clauses on descriptions are grouped by the parser so as to attach
+to sumti before outside quantifiers are put on.  The actual semantics of
+what is being attached has been pragmatically determined, and analysis has
+now shown that this can theoretically be vague/ambiguous or even limiting to 
+expression in the language, though workarounds probably exist for all
+problems raised.
+
+PROPOSED CHANGE:
+
+Allow the distinction between a relative clause attaching to the "inside set",
+excluding external quantifiers, of a description.  A relative clause outside
+the KU will refer to the entire sumti.  A relative clause inside the KU will
+generally be preposed so as to parallel the historical pseudo-possessive
+which is recognized as a transformation of an inside-set relative clause.
+However, postposed relative clauses will be inside by default, matching the
+way in which the parser inserts elidable terminators (i.e. only if needed).
+
+Comparable expansion of the relative clause possibilities inside vocatives
+is incorporated in this proposal.
+
+RATIONALE:
+
+The current grammar appears to group relative clauses with the "inside set"
+of a description sumti, that portion of a sumti including from the LE to the
+KU which includes the inside quantifier and not the outside quantifier.  In
+the case of non-restrictive "lo" descriptions, and possibly some others, this
+is not what is normally intended.
+
+Example:  "pa lo sipna noi melbi" groups as "pa <lo sipna noi melbi>"
+apparently adding the incidental claim that "all sleepers are beautiful".
+
+The problem manifests itself in various forms more completely documented in
+a long paper by Colin Fine, but the bottom line is that the existing grammar
+is vague as to what a relative clause attaches to, and there are definable
+cases where this vagueness can lead to unacceptable ambiguity.
+
+The proposed solution has the secondary virtues of:
+
+	1) making pseudo-possessives visibly match the parallel inside-set
+	relative clauses, but without overt relative clause marking;
+
+	2) making it obvious how to to express a pseudo-possessive with a
+	quantifier ("le ci mi broda" is a complete sentence and not a sumti,
+	since "le ci mi" is a complete sumti.  With preposed inside-set
+	relative clauses, "le pecimi broda" is unambiguously a sumti.); and
+
+	3) the problematical "[quantifier] [quantifier] [description]" is
+	eliminated from the language (analysis can give a meaning for this
+	expression of "[quantifier] lo [quantifier] lo  [description]", and
+	it has even been used once or twice, but experience has shown that
+	the analysis is counterintuitive to many people, who see also
+	"[quantifier1] lo [description] [quantifier2]-mei" as plausible).
+
+Postposed inside relatives are allowed in all descriptions, so the
+preposed/postposed distinction becomes a forethought/afterthought distinction,
+which can be valuable.  Existing texts retain their currently official
+inside-relative interpretation (unless the KU is explicitly present, a rarity),
+which is arguably desirable as the default (though it must be recognized
+that there are text examples where the speaker obviously wanted to apply the
+relative clause to the externally quantified sumti.)  The negative tradeoff
+of this is that KU becomes always required when you want an external
+relative clause.  (Other options were considered and rejected by the
+net-based Lojban community.)
+
+Preposed relative clauses (but not relative phrases) will almost always
+require a terminator, though monosyllabic "vau" is usually as applicable
+as "ku'o".
+
+The following analyzes all definite and indefinite relative clause cases.
+
+	Descriptor	External	internal	noi/poi
+			quantifier	quantifier
+			present		present
+
+	le	no	no	poi
+	le sipna poi melbi
+	[ro (le su'o sipna poi melbi ku)]
+	The sleepers who are beautiful...
+
+	le	no	no	noi
+	le sipna noi melbi
+	[ro (le su'o sipna noi melbi ku)]
+	The sleepers, who are beautiful...
+
+	le	no	yes	poi
+	le ci sipna poi melbi
+	ro (le ci sipna poi melbi ku)
+	The 3 sleepers who are beautiful...
+
+	le	no	yes	noi
+	le ci sipna noi melbi
+	ro (le ci sipna noi melbi ku)
+	The 3 sleepers, who are beautiful...
+
+	le	yes	no	poi
+	ci le sipna poi melbi
+	[ci (le su'oci sipna poi melbi ku)]
+	3 of the sleepers who are beautiful...
+
+	le	yes	no	noi
+	ci le sipna noi melbi
+	[ci (le su'oci sipna noi melbi ku)]
+	3 of the sleepers, who are beautiful...
+
+	le	yes	yes	poi
+	re le ci sipna poi melbi
+	re (le ci sipna poi melbi ku)
+
+	re le ci sipna ku poi melbi
+	[re (le ci sipna ku)] poi melbi
+	[The] two of the 3 sleepers who are beautiful...
+
+The Lojban in this case makes the distinction based on presence of the "ku",
+forcing the speaker to think about the distinction when important.
+
+	le	yes	yes	noi
+	re le ci sipna noi melbi
+	re (le ci sipna noi melbi ku)
+
+	re le ci sipna ku noi melbi
+	[re (le ci sipna ku)] noi melbi
+	Two of the 3 sleepers, who are beautiful...
+The Lojban in this case makes the distinction based on presence of the "ku",
+forcing the speaker to think about the distinction when important.
+
+	lo	no	no	poi
+	lo sipna poi melbi
+	[su'o (lo ro sipna poi melbi ku)]
+	Sleepers who are beautiful...
+
+	lo	no	no	noi
+	lo sipna noi melbi
+	[su'o (lo ro sipna noi melbi ku)]
+	Sleepers, who are beautiful...
+
+	lo	no	yes	poi
+	lo ci sipna poi melbi
+	su'o (lo ci sipna poi melbi ku)
+	At least one of the 3 in the universe that sleep who are beautiful...
+
+The following is a more likely example:
+
+	lomi ci cukta poi melbi
+	su'o (lomi ci cukta poi melbi ku)
+	At least one of my 3 books that are beautiful...
+
+Quantifying the inside set emphasizes it so that the restriction applying
+to it seems natural - natural enough that English requires forcing an
+indefinite description if there is an inside quantifier.
+
+	lo	no	yes	noi
+	lo ci sipna noi melbi
+	su'o (lo ci sipna noi melbi ku)
+	At least one of the 3 in the universe that sleep, who are beautiful...
+
+	lo	yes	no	poi
+	ci lo sipna poi melbi
+	[ci (lo rosu'oci sipna poi melbi ku)]
+	3 sleepers who are beautiful...
+
+With no inside quantifier, the English becomes an indefinite, and there is
+no suggestion that there is an inside-set, much less that the relative
+clause relates to it.  Likewise in the current Lojban which is equivalent
+to the indefinite "ci sipna poi melbi"(which under this change will have the
+ku after the melbi to separate from other sumti).
+
+The restrictive clause is unambiguously talking only about the 3 sleepers,
+since in an indefinite there is no internal quantifier to put secondary
+focus on the inside set - the set of  all sleepers.  If the inside
+quantifier "ro" was present, under this change the restrictive
+clause would attach to the inside set unless explicitly closed off with "ku".
+
+	ci lo ro sipna poi melbi
+	ci (lo ro sipna poi melbi)
+	Three out of all sleepers who are beautiful.
+
+	ci lo ro sipna ku poi melbi
+	ci (lo ro sipna ku) poi melbi
+	[The only] three of all sleepers who are beautiful.
+
+	lo	yes	no	noi
+	ci lo sipna noi melbi
+	[ci (lo [rosu'oci] sipna noi melbi [ku])]
+	3 sleepers, who are beautiful...
+
+The English again becomes an indefinite and the incidental clause goes
+outside.  Note that this time, the English remains ambiguous and
+odd-sounding no matter how you phrase it:
+
+	?3 of sleepers, who are beautiful...
+	?3 of those sleepers, who are beautiful...
+
+unless you go to
+
+	3 who sleep, who are beautiful...
+
+which is better reflected in Lojban as
+
+	ci da poi sipna zi'e noi melbi
+
+which accurately puts the relative clause outside, or
+
+	3 of those who sleep, who are beautiful
+
+which only forces the English back into ambiguity as to which are beautiful.
+
+	lo	yes	yes	poi
+	re lo ci sipna poi melbi
+	re (lo ci sipna poi melbi ku)
+
+	re lo ci sipna ku poi melbi
+	[re (lo ci sipna ku)] poi melbi
+	Two of 3 sleepers who are beautiful...
+
+The English is totally ambiguous as to which sleepers are beautiful, and the
+Lojban in this case makes the distinction based on presence of the "ku",
+forcing the speaker to think about the distinction when important.
+
+	lo	yes	yes	noi
+	re lo ci sipna noi melbi
+	re (lo ci sipna noi melbi ku)
+
+	re lo ci sipna ku noi melbi
+	[re (lo ci sipna ku)] noi melbi
+	Two of 3 sleepers, who are beautiful...
+
+The unlikely English is totally ambiguous as to which sleepers are beautiful,
+and the Lojban in this case makes the distinction based on presence of the
+"ku", forcing the speaker to think about the distinction when important.
+
+
+IMPORTANT NOTE:
+
+Change 20 is sufficiently major, affecting nearly all of the sumti
+grammar rules, that there may be unforeseen side effects.  This seems
+unlikely, as analysis so far has shown that the only reduction in expression
+is the confusing "[quantifier] [quantifier] [description]" which has a
+much clearer equivalent.
+
+However, the introduction of such a major change at this late stage of the
+project makes it highly controversial, as any problems may show up too late
+to be easily fixed (i.e. after books are published).
+
+
+CHANGE 21:  ANNULLED
+
+
+CHANGE 22
+
+PROPOSED CHANGE:
+
+Bring the description of lexer compounding (Step 5 of the preparser) in the
+comments at the beginning of the grammar into conformance with the way the
+current implementation (as well as all its predecessors) actually do things.
+
+RATIONALE:
+
+The comments in question were written presuming that the parser would use
+method 5b, i.e. insertion of lexer tokens.  All actual practice has employed
+method 5a, i.e. replacement of lexer compounds by single tokens.  It seemed
+to be more useful to document actual practice:  5a and 5b have different
+ordering implications.
+
+
+CHANGE 23
+
+PRESENT LANGUAGE:
+
+The current rules for connecting "cu'e", the tense/modal question, with
+other tenses using JEks or JOIks are erroneous and hopelessly irrational.
+"cu'e je bai" is legal but "bai je cu'e" is not.  Also, "na'e ki" is legal
+but meaningless.
+
+PROPOSED CHANGE:
+
+Put "cu'e" on a level with space/time tenses and with modals.  No modifiers
+such as scalar negation are allowed to affect it.  This is what Imaginary
+Journeys (John Cowan's paper on Lojban tenses published with JL16) says.
+Put bare "ki" on the same level; this does not affect "ki" following modals
+or tenses.
+
+RATIONALE:
+
+The YACC grammar said one thing, the E-BNF another, and Imaginary Jourmeys a
+third.  The Imaginary Journeys version is clearly what makes sense.
+NAhE+KI was the unintended result of a previous fix intended to get bare KI
+working.
+
+
+CHANGE 24
+
+CURRENT LANGUAGE:
+
+In complex tenses, the optional CAhA (for potentiality) comes after KI, and
+therefore cannot be made sticky.
+
+PROPOSED CHANGE:
+
+Place the optional CAhA before the optional KI.
+
+RATIONALE:
+
+Sticky CAhA is not unreasonable.
+
+
+CHANGE 25
+
+CURRENT LANGUAGE:
+
+It is currently legal, though pointless, to insert NA (contradictory bridi
+negation) after the CO of an inverted tanru, rather than in its usual place
+at the beginning of the selbri.  Furthermore, it is possible to follow such
+a NA with a tag or another NA or various combinations.
+
+PROPOSED CHANGE:
+
+Disallow them by splitting up current rule 131, which conflates CO handling
+with NA handling.
+
+RATIONALE:
+
+The disallowed constructs have never been used by anybody, have no advantages
+over the normal use of tenses/negation at the beginning of the selbri, and
+may tend to confuse people if used - they look like a negation/tense that
+applies only to the second half of the selbri, a meaningless notion.
+
+
+CHANGE 26
+
+CURRENT LANGUAGE:
+
+NAhU is used to construct a mekso operator out of a regular Lojban predicate.
+The current grammar allows a bridi-tail to be used after NAhU.
+
+PROPOSED CHANGE:
+
+Allow a selbri only, with no following sumti.
+
+RATIONALE:
+
+In a context like
+
+	li by. na'u broda te'u cy.
+	the number B # C
+
+where "#" represents the nonce operator, the elidable terminator "te'u"
+turns out to be always required.  If it is omitted, the "cy." is interpreted
+as part of the bridi-tail.  Reducing the generality of what is permitted
+makes elidability much more likely.
+	
+The original reason for allowing the bridi-tail was that some of the places
+of the general predicate may be non-numerical, and allowing sumti permits
+those places to be "plugged up" and not used in the operator.  However, the
+same effect can be achieved by binding any such sumti into the selbri with
+"be...bei...be'o".
+
+
+CHANGE 27
+
+CURRENT LANGUAGE:
+
+Normally, I, I+BO, and NIhO are allowed only between sentences; for special
+effects, however, they may also be used at the beginning of text.  This
+initial use is not permitted, however, in portions of text grouped by
+"tu'e...tu'u". (See change 8, 9, and 14 for related beginning-of-text
+changes.)
+
+PROPOSED CHANGE:
+
+Allow I, I+BO, and NIhO after TUhE.
+
+RATIONALE:
+
+Increased flexibility.  In particular, leading "ni'oni'oni'o..." may be
+required to set the maximum level of "ni'o" nesting that will be used in the
+text enclosed by "tu'e...tu'u".
+
+
+CHANGE 28:  (Probably ANNULLED)
+
+CURRENT LANGUAGE:
+
+The draft textbook had a cmavo "mo'u" used to attach a relative phrase to a
+sumti 'modally'. i.e. neither restrictively or non-restrictively.  As part
+of an early cmavo change, "mo'u" was combine into the non-restrictive "ne"
+because at the time there was not seen to be any logical distinction between
+the two.  This was an error.
+
+The relative-phrase introducer "ne" is used before a tagged sumti in two
+different ways: to add incidental information (the non-restrictive equivalent
+of "pe"), and to attach a new sumti to the bridi, modally associating it with
+some already existing sumti.  Paradigm cases are:
+
+	mi nelci la .apasionatas ne fi'e la betoven.
+	I like the Appassionata, created by Beethoven.
+
+and
+
+	la djan. nelci la betis. ne semau la meris.
+	John likes Betty more than (he likes) Mary.
+
+respectively.  In the former sentence, "ne fi'e la betoven." means no more
+than "noi la betoven. finti"; in the latter sentence, however, "ne semau
+la meris." does not mean "noi la meris. se zmadu", since the information is
+essential to the bridi, not merely incidental.  That is, John may like Betty 
+more than Mary, but not really 'like' Betty or Mary at all.  In fact, the
+second example generally means:
+
+	le ni la djan. nelci la betis. cu zmadu
+		le ni la djan. nelci la meris.
+	The amount-of John's liking Betty is-more-than
+		the amount-of John's liking Mary.
+
+The confusion between the two types of "ne" is unacceptably ambiguous.  The
+second type is especially valuable with "semau" and "seme'a", and has seen
+considerable use, but this use is contrary to the nominal definition of "ne".
+
+PROPOSED CHANGE:
+
+Assign the cmavo "nau" to the latter use.  Since "sumti NAU tag sumti" is
+really a kind of non-logical connection between sumti, it no longer makes
+sense to treat it as a relative phrase; this grammar change makes "NAU tag"
+a kind of non-logical connective, usable between sumti, tanru units,
+operators, and operands only.
+
+COUNTER-ARGUMENT:
+
+This mechanism only works correctly if a second place is implicitly given
+the modal or tense tag.  For tenses, the second place is the space/time
+origin; for the comparatives, it is what is being compared; for the causals,
+it is the effect (and vice versa).  But for a tag such as "bau", using the
+x2 place of "bangu" simply isn't useful.
+
+For most uses of this construction, the right thing to do is to use the
+actual underlying gismu, which has all the necessary places:  recast pure
+comparisons using "zmadu", "mleca", or "dunli".  If you want to
+simultaneously make positive and comparative claims, use ".esemaubo".  To
+apply tags separately to the two parts of a non-logical connective ("I
+in Lojban, with you in English, discuss"), use Change 30's non-logical
+termset connection.
+
+It has been argued that the standard use of "semau" in relative phrases is
+logically misleading.  If we are saying that "John likes Betty more than
+(he likes) Mary", the essential claim is not "likes"/"nelci" but "zmadu" as
+stated above, and the main bridi should therefore be "zmadu".  This
+essential logical structure is hidden by the status quo, and to some
+extent by the proposed change.  The counter-argument to this, that natural
+language usage of comparison warrants an abbreviated form, is logically
+unsound.
+
+Change 28 will probably not be accepted, and is not incorporated into the
+published E-BNF, but is being retained here until all interested parties
+have seen the arguments on all sides.
+
+PROPOSAL:
+
+Clarify that "ne semau" is non-restrictive, not simply comparative.  This
+means that the example Lojban sentence above requires that John like both
+Betty and Mary, in order for the non-restrictive "ne semau" phrase to be
+true.  By comparison, the English can be used if John likes Betty, but
+doesn't like Mary.
+
+This clarification requires no grammar change, but substantial reworking of
+draft textbook lesson 6.
+
+
+CHANGE 29
+
+CURRENT LANGUAGE:
+
+The flag "ma'o" (of selma'o MAhO) is used to convert a letteral string to a
+mekso operator.  It serves to disambiguate uses of "f" or "g" as names of
+functions from the identical-looking uses of "x" or "y" as names of
+variables.
+
+PROPOSED CHANGE:
+
+Allow any mekso to follow "ma'o".  This involves changing the terminator to
+"te'u", the general mekso terminator.
+
+RATIONALE:
+
+Some flavors of mathematics (lambda calculus, algebra of functions) blur the
+distinction between operators and operands.  Currently, an operator can be
+changed into an operand with "ni'ena'u", which transforms the operator into
+a matching selbri and then the selbri into an operand.  The reverse
+transaction is not readily possible.
+
+There is a potential semantic ambiguity in "ma'o fy. [te'u]" if "fy." is
+already in use as a variable:  it comes to mean "the function whose value
+is always 'f'".  However, mathematicians do not normally use "f" as a normal
+variable, so this case should not arise in practice.
+
+
+CHANGE 30
+
+CURRENT LANGUAGE:
+
+Termsets are defined with logical connectives only.  Forethought non-logical
+connectives (JOIGIks) are allowed also, but only as a by-product of their
+grammatical equivalence with GEks.
+
+PROPOSED CHANGE:
+
+Explicitly allow afterthought non-logical connectives (JOIks) in termsets.
+
+RATIONALE:
+
+Sentences like:
+
+	nu'i mi bau la lojban nu'u joi do bau la gliban. cu casnu
+	I in-language Lojban joined-with you in-language English discuss.
+
+are not possible without termsets.  The effect of a non-logically connected
+termset is to non-logically connect each of the corresponding terms in an
+inseparably cross-linked way.
+
+
+CHANGE 31
+
+CURRENT LANGUAGE:
+
+Logical connections can be grouped closely (with BO) or loosely (with KE),
+but non-logical connectives cannot, except in forethought.  This is a
+hangover from Loglan days, when there was only one non-logical connective
+and grouping was irrelevant.
+
+PROPOSED CHANGE:
+
+Allow JOIk+BO between sumti, tanru units, and operands; and JOIk+KE between
+sumti and operands.  We already allow JOIk+KE in tanru and operators,
+because no cmavo compounding is required.
+
+RATIONALE:
+
+Completeness:  "the set of red-joi-blue and green-joi-black things" can now
+be done with "cebo" as the middle "and".
+
+
+CHANGE 32
+
+CURRENT LANGUAGE:
+
+Currently, "jai" (selma'o JAI) is used only with a following tag (tense or
+modal), and causes a modal conversion analogous to the regular conversions
+expressed with SE.  The sumti normally tagged by the modal is shifted into
+the x1 place, and the regular x1 place is moved to an auxiliary place tagged
+with "fai" (selma'o FA).
+
+PROPOSED CHANGE:
+
+Allow "jai" with no following tag.  The semantics is to extract a place from
+the subordinate bridi within the abstract description normally appearing in
+the x1 place, and raise it to the x1 level.  The abstract description goes
+to the "fai" place.  For example:
+
+	le nu mi catra la djim. cu jenca la djein.
+	the event-of my killing Jim shocks Jane.
+
+becomes:
+
+	mi jai jenca la djein. fai le nu [mi] catra la djim.
+	I shock Jane by the event-of [my] killing Jim.
+
+Exactly which place is extracted from the subordinate bridi is left vague.
+
+RATIONALE:
+
+This construction is a sort of sumti-raising; it differs from the "tu'a"
+type because it marks the selbri rather than the sumti.  The whole
+abstraction is preserved in the "fai" place if it is wanted, and "le jai
+jenca" can be used to mean "the one who shocks" (where "le jenca" would be
+"the event which is shocking").  In this case, "jai" is equivalent to "jai
+gau".
+
+Note that this type of sumti-raising is semantically ambiguous, as is "tu'a"
+sumti-raising.  The natural raised sumti may not always be the actor.  In
+the above example, the bracketed "mi" is implied to be the agent because it
+is omitted from the abstraction in the "fai" place.  If Jim were also
+omitted from the abstraction:
+
+	mi jai jenca la djein. fai le nu catra.
+	I shock Jane by the event-of killing.
+
+it is not clear whether it is my doing the killing or being the one killed
+is the event that shocks Jane (ignoring the pragmatics of whether someone
+who was killed could/would be making such a statement; well-known American
+essays such as the hypothetical statements by people who have died in
+traffic accidents after drinking alcohol come to mind).  What is known is
+that the speaker wants to emphasize the role of "mi", whichever
+role he played in the killing.
+
+If it is necessary to raise from an abstraction which is not in x1, a
+regular SE conversion following (and therefore inside) the "jai" can be used 
+to get the abstraction to x1:
+
+	lo nazbi jai te frica do mi fai leka [lo nazbi ...]
+	A nose is the difference between you and me.
+
+Exactly what about the nose that is different is quite vague.
+
+
+CHANGE 33
+
+CURRENT LANGUAGE:
+
+There are two figurative-speech markers, "pe'a" and "po'a", each in its
+own selma'o.  "pe'a" opens figurative speech until closed by a "po'a".
+If "po'a" appears alone, it applies to the previous word or construct,
+using the same rules as UI cmavo.  "pe'a" and "po'a" are not affected by the
+regular long-scope cmavo for UI, which are "fu'e" and "fu'o".
+
+PROPOSED CHANGE:
+
+Make "pe'a" a regular UI discursive, following the ordinary scoping rules.
+Eliminate "po'a".
+
+RATIONALE:
+
+The rationale for the original situation was that figurative speech markers
+would have a shorter scope than typical attitudinals.  However, none of
+this machinery has seen much use, and discussion of figurative lujvo
+(which use the "pev-" rafsi) made it clear that the current system was
+unnecessarily baroque.  Long-range figurativeness (as in poetry) can
+be indicated by "fu'epe'a".  The reason for choosing "pe'a" rather than
+"po'a" is twofold: greater familiarity, plus the memory hook "pemci".

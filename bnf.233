@@ -1,0 +1,244 @@
+LOJBAN MACHINE GRAMMAR, BNF VERSION, 2nd BASELINE AS OF 23 JUNE 1991
+WHICH IS ORIGINAL BASELINE 20 JULY 1990 INCORPORATING JC'S TECH FIXES 1-28
+This version includes change proposals 1-33 to that baseline,
+dated 22 June 1993.
+
+COPYRIGHT 1989,1990,1991,1992,1993 THE LOGICAL LANGUAGE GROUP, INC.
+CONTACT THAT ORGANIZATION AT 2904 BEAU LANE, FAIRFAX VA 22031 USA 703-385-0273
+
+PERMISSION TO COPY GRANTED SUBJECT TO YOUR VERIFICATION THAT THIS IS THE
+LATEST VERSION OF THE LOJBAN GRAMMAR, THAT YOUR DISTRIBUTION BE FOR
+PROMOTION OF LOJBAN, THAT THERE IS NO CHARGE FOR THE PRODUCT, AND THAT
+THIS COPYRIGHT NOTICE IS INCLUDED INTACT IN THE COPY.
+
+Explanation of notation:
+
+All rules have the form:
+	name<number> = bnf-expression
+which means that the grammatical construct "name" is defined by
+"bnf-expression".  The number cross-references this grammar with
+the rule numbers in the YACC grammar.  The names are the same as those
+in the YACC grammar, except that subrules are labeled with A, B, C, ... in the
+YACC grammar and with 1, 2, 3, ... in this grammar.  In addition, rule 971 is
+"simple_tag" in the YACC grammar but "stag" in this grammar, because of its
+frequent appearance.
+
+1)  Names in lower case are grammatical constructs.
+2)  Names in UPPER CASE are selma'o (lexeme) names, and are terminals.
+3)  Concatenation is expressed by juxtaposition with no operator symbol.
+4)  | represents alternation (choice).
+5)  [] represents an optional element.
+6)  & represents and/or ("A & B" is the same as "A | B | A B").
+7)  ... represents optional repetition of the construct to the left.
+    Left-grouping is implied; right-grouping is shown by explicit
+    self-referential recursion with no "..."
+8)  () serves to indicate the grouping of the other operators.
+    Otherwise, "..." binds closer than &, which binds closer than |.
+9)  # is shorthand for "[free ...]", a construct which appears in many places.
+10) // encloses an elidable terminator, which may be omitted (without change
+    of meaning) if no grammatical ambiguity results.
+
+
+text<0> = [NAI] [(CMENE ... #) | (indicators & free ...)] [joik-jek] text-1
+
+text-1<2> = [(I [jek | joik] [[stag] BO] #) ... | NIhO ... # ] paragraphs
+
+paragraphs<4> = paragraph [NIhO ... # paragraphs]
+
+paragraph<10>= paragraph-1 [I [jek | joik] # [paragraph-1] ...
+
+paragraph-1<11> = paragraph-2 [I [jek | joik] [stag] BO # paragraph-1]
+
+paragraph-2<12> = utterance | [prenex | tag] TUhE # text-1 /TUhU#/
+
+utterance<20> = ek # | gihek # | quantifier | NA | term ... /VAU#/ | prenex |
+	relative-clauses | links | linkargs | sentence
+
+prenex<30> = term ... ZOhU #
+
+sentence<40> = bridi-tail | sentence-1
+
+sentence-1<41> = term ... [CU #] bridi-tail | gek sentence-1 gik sentence |
+	prenex sentence
+
+bridi-tail<50> = bridi-tail-1
+	[gihek [stag] KE # bridi-tail /KEhE#/ tail-terms] ...
+
+bridi-tail-1<51> = bridi-tail-2 [gihek # bridi-tail-2 tail-terms] ...
+
+bridi-tail-2<52> = bridi-tail-3 [gihek [stag] BO # bridi-tail-2 tail-terms]
+
+bridi-tail-3<53> = selbri tail-terms | gek-bridi-tail
+
+gek-bridi-tail<54> = gek bridi-tail gik bridi-tail-3 |
+	tag KE gek-bridi-tail /KEhE#/ | NA # gek-bridi-tail
+
+tail-terms<71> = [term ...] /VAU#/
+
+term<81> = sumti | (tag | FA #) (sumti | /KU#/) | termset | NA KU #
+
+termset<83> = NUhI gek term ... /NUhU#/ gik term ... /NUhU#/ |
+	NUhI term ... /NUhU#/ joik-ek # term ... /NUhU#/
+
+sumti<90> = sumti-1 [(ek | joik) [stag] KE # sumti /KEhE#/] ...
+
+sumti-1<91> = sumti-2 [joik-ek sumti-2] ...
+
+sumti-2<91> = sumti-3 [(ek | joik) [stag] BO # sumti-2]
+
+sumti-3<93> = sumti-4 | gek sumti gik sumti-3
+
+sumti-4<94> = [quantifier] sumti-5 [relative-clauses] |
+	quantifier selbri /KU#/ [relative-clauses]
+
+sumti-5<96> = (LAhE # | NAhE BO #) [relative-clauses] sumti /LUhU#/ |
+	KOhA # | lerfu-string /BOI#/ | LA CMENE ... # |
+	(LA | LE) sumti-tail /KU#/ | LI mex /LOhO#/ |
+	ZO any-word # | LU text /LIhU/ # | LOhU any-word ... LEhU # |
+	ZOI any-word anything any-word #
+
+sumti-tail<111> = [sumti-5 [relative-clauses]] sumti-tail-1 |
+	relative-clauses sumti-tail-1
+
+sumti-tail-1<112> = [quantifier] selbri [relative-clauses] | quantifier sumti
+
+relative-clauses<121> = relative-clause [ZIhE relative-clause] ...
+
+relative-clause<122> = GOI term /GEhU#/ | NOI sentence /KUhO#/
+
+selbri<130> = [tag] selbri-1
+
+selbri-1<131> = selbri-2 | NA selbri
+
+selbri-2<132> = selbri-3 [CO # selbri-2]
+
+selbri-3<133> = selbri-4 ...
+
+selbri-4<134> = selbri-5 [joik-jek selbri-5] ...
+
+selbri-5<135> = selbri-6 [(jek | joik) BO # selbri-5]
+
+selbri-6<136> = tanru-unit [BO selbri-6] | [NAhE #] guhek selbri gik selbri-6
+
+tanru-unit<150> = tanru-unit-1 [CEI # tanru-unit-1] ...
+
+tanru-unit-1<151> = tanru-unit-2 [linkargs]
+
+tanru-unit-2<152> = BRIVLA # | GOhA [RAhO] # | KE selbri-3 /KEhE#/ |
+	ME sumti /MEhU#/ [MOI] # | (number | lerfu-string) MOI # |
+	NUhA mex-operator | SE # tanru-unit-2 | JAI [tag] tanru-unit-2 |
+	any-word (ZEI any-word) ... | NAhE # tanru-unit-2 |
+	NU [NAI] # [joik-jek NU [NAI] #] ... sentence /KEI#/
+
+linkargs<160> = BE term [links] /BEhO#/
+
+links<161> = BEI term [links]
+
+quantifier<300> = number /BOI#/ | VEI mex /VEhO#/
+
+mex<310> = mex-1 [operator mex-1] ... | FUhA rp-expression
+
+mex-1<311> = mex-2 [BO operator mex-1]
+
+mex-2<312> = operand | [PEhO] operator mex-2 ... /KUhE#/
+
+rp-expression<330> = rp-operand rp-operand operator
+
+rp-operand<332> = operand | rp-expression
+
+operator<370> = operator-1 [joik-jek operator-1] ...
+
+operator-1<371> = operator-2 | guhek operator-1 gik operator-2
+
+operator-2<372> = mex-operator # | KE operator /KEhE#/
+
+mex-operator<374> = SE # mex-operator | NAhE # mex-operator
+	MAhO mex /TEhU#/ | NAhU selbri /TEhU#/ | VUhU
+
+operand<380> = operand-1 [(ek | joik) [stag] KE # operand /KEhE#/] ...
+
+operand-1<382> = operand-2 [joik-ek operand-2] ...
+
+operand-2<383> = operand-3 [(ek | joik) [stag] BO # operand-2]
+
+operand-3<385> = quantifier | lerfu-string /BOI#/ |
+	NIhE selbri /TEhU#/ | MOhE sumti /TEhU#/ |
+	JOhI mex-2 ... /TEhU#/ | gek operand gik operand-3 |
+	(LAhE # | NAhE BO #) operand /LUhU#/
+
+number<812> = PA [PA | lerfu-word] ...
+
+lerfu-string<817> = lerfu-word [PA | lerfu-word] ...
+
+lerfu-word<987> = BY | any-word BU | LAU lerfu-word | TEI lerfu-string FOI
+
+ek<802> = [NA] [SE] A [NAI]
+
+gihek<818> = [NA] [SE] GIhA [NAI]
+
+jek<805> = [NA] [SE] JA [NAI]
+
+joik<806> = [SE] JOI [NAI] | interval | GAhO interval GAhO
+
+interval<932> = [SE] BIhI [NAI]
+
+joik-ek<421> = joik # | ek #
+
+joik-jek<422> = joik # | jek #
+
+gek<807) = [SE] GA [NAI] # | joik GI # | stag gik #
+
+guhek<808> = [SE] GUhA [NAI] #
+
+gik<816> = GI [NAI] #
+
+tag<491> = tense-modal [joik-jek tense-modal] ...
+
+stag<971> = simple-tense-modal [(jek | joik) simple-tense-modal] ... 
+
+tense-modal<815> = simple-tense-modal # | FIhO selbri /FEhU#/
+
+simple-tense-modal<972> = [NAhE] [SE] BAI [NAI] [KI] |
+	[NAhE] time & space & CAhA [KI] | KI | CUhE
+
+time<1030> = ZI & time-offset ... & ZEhA [PU [NAI]] & interval-modifier
+
+time-offset<1033> = PU [NAI] [ZI]
+
+space<1040> = VA & space-offset ... & space-interval & (MOhI space-offset)
+
+space-offset<1045> = FAhA [NAI] [VA]
+
+space-interval<1046> = ((VEhA & VIhA) [FAhA [NAI]]) & FEhE interval-modifier
+
+interval-modifier<1050> = interval-property & [(ZAhO [interval-property]) ...]
+
+interval-property<1051> = number ROI [NAI] | TAhE [NAI]
+
+free<32> = SEI # [term ... [CU #]] selbri /SEhU/ | SOI sumti [sumti] /SEhU/ |
+	vocative selbri [relative-clauses] /DOhU/ |
+	vocative relative-clauses sumti-tail-1 /DOhU/ |
+	vocative CMENE ... # [relative-clauses] /DOhU/ |
+	vocative [sumti] /DOhU/ | (number | lerfu-string) MAI |
+	TO text /TOI/ | XI number /BOI/ | XI lerfu-string /BOI/ |
+	XI VEI mex /VEhO/
+
+vocative<415> = (COI [NAI]) ... & DOI
+
+indicators<411> = [FUhE] indicator ...
+
+indicator<413> =  (UI | CAI) [NAI] | Y | DAhO | FUhO
+
+
+The following rules are non-formal:
+
+word<1100> = [BAhE] any-word [indicators]
+
+any-word = "any single word (no compound cmavo)"
+
+anything = "any text at all, whether Lojban or not"
+
+null<1101> = any-word SI | utterance SA | text SU
+
+FAhO is a universal terminator and signals the end of parsable input.
+
