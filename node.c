@@ -237,7 +237,6 @@ char *msg;
 	{
 	errline = line;
 	errcol = column;
-/*	errtype = yytoken; */
 	errlastreduce = lastreduce;
 	}
 
@@ -247,13 +246,9 @@ main(argc, argv)
 int argc;
 char **argv;
 	{
-	time_t starttime, endtime;
-
 	stream = stdout;
 	setflags(argv);
-	//copyright();
 	interactive = isatty(0);
-	time(&starttime);
 	if (interactive)
 		fprintf(stderr, ">>> ");
 	if (!yyparse())
@@ -270,10 +265,6 @@ char **argv;
 		fprintf(stderr, "Last good construct was: %s\n",
 			rulename(errlastreduce));
 		}
-	/*
-	fprintf(stderr,
-		"Space used: %ld bytes for tokens, %ld bytes for strings\n",
-		tokspace, stringspace);*/
 	if (interactive) {
 		fprintf(stderr, "\n");
 		execv(argv[0], argv);
@@ -281,8 +272,6 @@ char **argv;
 		fprintf(stderr, "can't reload parser: set PARSER variable\n");
 		return 1;
 		}
-	time(&endtime);
-	//fprintf(stderr, "Time used: %ld seconds\n", endtime - starttime);
 	return 0;
 	}
 
