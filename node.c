@@ -52,6 +52,7 @@ int simplemode = 0;
 int elidemode = 0;
 int rulemode = 0;
 int singlemode = 0;
+int yamlmode = 0;
 
 int
 yylex()
@@ -256,6 +257,8 @@ char **argv;
 			tree(results);
 		else if (rulemode)
 			rprint(results);
+		else if (yamlmode)
+			yprint(results);
 		else
 			print(results);
 	else {
@@ -304,6 +307,8 @@ char **argv;
 			singlemode = 1;
 		else if (strcmp(*argv, "-p") == 0)
 			rulemode = 1;
+		else if (strcmp(*argv, "-y") == 0)
+			yamlmode = 1;
 		else if (strcmp(*argv, "-c") == 0) {
 			mkcmavo();
 			exit(0);

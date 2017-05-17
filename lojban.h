@@ -27,6 +27,7 @@ extern FILE *stream;
 char *getword();
 void print();
 void rprint();
+void yprint();
 void prologize();
 void downcase();
 void tree();

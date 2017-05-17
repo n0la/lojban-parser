@@ -162,6 +162,28 @@ token *tok;
 	fprintf(stream, "\n");
 	}
 
+void yprint1(token *tok, int level)
+{
+    token *child = NULL;
+    int i = 0;
+
+    if (tok->text) {
+        for (i = 0; i < level; i++) {
+            fprintf(stdout, "  ");
+        }
+        fprintf(stdout, "%s:\n", tok->text);
+    }
+
+    for (child = tok->downleft; child; child = child->right) {
+        yprint1(child, level++);
+    }
+}
+
+void yprint(token *tok)
+{
+    yprint1(tok, 0);
+}
+
 void
 need(n, stream)
 int n;
