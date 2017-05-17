@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 
 /* This module does indicator processing.  It invokes lerfu() and does
@@ -41,7 +44,7 @@ token *tok;
 	switch (tok->type) {
 	case UI_612:
 	case CAI_515:
-	case Y_618:
+	case Y_619:
 	case DAhO_524:
 	case FUhO_536:
 	case FUhE_535:

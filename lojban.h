@@ -1,3 +1,8 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
+#define _CRT_SECURE_NO_WARNINGS 1
+
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
@@ -17,6 +22,7 @@
 
 extern int line;
 extern int column;
+extern FILE *stream;
 
 char *getword();
 void print();

@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 # include "lexrules.h"
 
@@ -14,7 +17,7 @@ simple_tag_971          :  simple_tense_modal_972
 
 simple_tense_modal_972 :  simple_tense_modal_A_973
                         |  NAhE_583  simple_tense_modal_A_973
-                        |  CUhE_521
+                        |  CUhE_522
                         |  KI_554
                         ;
 
@@ -165,7 +168,7 @@ token *simple_tag_971()
 	switch (nexttype) {
 	case BAI_502:
 	case CAhA_514:
-	case CUhE_521:
+	case CUhE_522:
 	case FAhA_528:
 	case FEhE_530:
 	case KI_554:
@@ -238,7 +241,7 @@ token *simple_tense_modal_972_2()
 token *simple_tense_modal_972_3()
 	{
 	INIT;
-	IS(CUhE_521);
+	IS(CUhE_522);
 	RETURN;
 	}
 

@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 
 /* This module provides all output facilities.
@@ -6,7 +9,7 @@ Currently, all output is to stdout, but this is easy to change.
 	tree(tok) uses portable tree format (one line per node).
 */
 
-#define stream stdout
+FILE *stream;
 
 extern int singlemode;
 

@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 
 /* This module calls getword and lexes the result.  Its morphological
@@ -30,7 +33,7 @@ lex()
 		}
 
 	if (iscmene(word)) {
-		result->type = CMENE_517;
+		result->type = CMENE_518;
 		result->text = newstring(strlen(word) + 1);
 		memcheck(result->text, "text");
 		strcpy(result->text, word);
@@ -88,9 +91,11 @@ char *p; char *bad;
 		pos++;
 		}
 	if (!pos) return;
-	if (pos == p || isV(pos[-1])) printf(
-"Illegal cmene %s at line %d, column %d: contains %s\n",
-		p, line, column, bad);
+	if (pos == p || isV(pos[-1])) {
+		fprintf( stderr,
+			"Illegal cmene %s at line %d, column %d: contains %s\n",
+			p, line, column, bad);
+	}
 	}
 
 int

@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 # include "lexrules.h"
 
@@ -57,7 +60,7 @@ compound()
 		TEST(A); TEST(Y); TEST(Q); break;
 	case CAhA_514:
 		TEST(G); TEST(O); break;
-	case CUhE_521:
+	case CUhE_522:
 		TEST(G); TEST(O); break;
 	case FAhA_528:
 		TEST(G); TEST(O); break;

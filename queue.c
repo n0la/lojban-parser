@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 # include "lojban.h"
 
 /* This module supports a queue of tokens with support for backtracking.
@@ -42,6 +45,12 @@ token *
 fail(tok)
 token *tok;
 	{
+	int type;
+
+	type=tok->type;
+	if (D_cpd_reduce && type != -1)
+		printf("failure at %s (%d) ... backtracking\n",
+			rulename(tok->type), tok->type);
 	head = tail = NULL;
 	release(tok);
 	if (head) {
@@ -97,7 +106,8 @@ int type;
 	if (tok) {
 		tok->type = type;
 		if (D_cpd_reduce)
-			printf("compounder reduced %s\n", rulename(type));
+			printf("compounder reduced %s (%d)\n",
+				rulename(type), type);
 		}
 	return tok;
 	}

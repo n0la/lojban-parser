@@ -1,3 +1,6 @@
+/* Copyright 1992-2003 Logical Language Group Inc.
+   Licensed under the Academic Free License version 2.0 */
+
 /* This is the fundamental datatype used by the parser, representing each
 level in the parse tree. newtoken() is a macro which returns a token.
 */
