@@ -6,7 +6,7 @@ Currently, all output is to stdout, but this is easy to change.
 	tree(tok) uses portable tree format (one line per node).
 */
 
-static FILE *stream = stdout;
+#define stream stdout
 
 extern int singlemode;
 
