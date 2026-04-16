@@ -10,10 +10,8 @@ Tokens are collected from filter().  Any with types already assigned
 are not looked up.
 */
 
-int
-get_vowels(text)
-char *text;
-	{
+int get_vowels(char *text)
+{
 # define VV(n) (text[2] ? UNK_M1 : n)
 # define VhV(n) (text[3] ? UNK_M1 : n)
 	switch (text[0]) {
@@ -98,11 +96,10 @@ char *text;
 	default:
 		return UNK_M1;
 		};
-	}
+}
 
-token *
-selmao()
-	{
+token * selmao(void)
+{
 	int i, j;
 	token *result;
 
@@ -127,4 +124,4 @@ selmao()
 		result->type = UI_612;
 		}
 	return result;
-	}
+}

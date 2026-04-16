@@ -17,11 +17,8 @@ token *newtoken_result = NULL;
 token *freelist = NULL;
 
 
-void
-add(parent, child)
-token *parent;
-token *child;
-	{
+void add(token *parent, token *child)
+{
 	if (!child) return;
 	child->up = parent;
 	if (parent->downleft)
@@ -29,28 +26,22 @@ token *child;
 	else
 		parent->downleft = child;
 	parent->downright = child;
-	}
+}
 
-void
-destroy(tok)
-token *tok;
-	{
+void destroy(token *tok)
+{
 	tok->next = freelist;
 	freelist = tok;
-	}
+}
 
-token *
-settype(tok, type)
-token *tok;
-int type;
-	{
+token *settype(token *tok, int type)
+{
 	if (tok) tok->type = type;
 	return tok;
-	}
+}
 
-int
-makefree()
-	{
+int makefree(void)
+{
 	int i;
 
 	freelist = (token *) malloc(sizeof(token) * QUANTUM);
@@ -60,4 +51,4 @@ makefree()
 	freelist[QUANTUM-1].next = NULL;
 	tokspace += sizeof(token) * QUANTUM;
 	return 0;
-	}
+}

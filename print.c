@@ -19,19 +19,15 @@ static int outcolumn = 0;
 # define LDELIM ("({<[" [level++ & 3])
 # define RDELIM (")}>]" [--level & 3])
 
-void
-print(tok)
-token *tok;
-	{
+void print(token *tok)
+{
 	outcolumn = level = 0;
 	print1(tok);
 	fprintf(stream, "\n");
-	}
+}
 
-void
-print1(tok)
-token *tok;
-	{
+void print1(token *tok)
+{
 	token *p;
 
 tail_recursion:
@@ -65,21 +61,17 @@ tail_recursion:
 		need(1, stream);
 		fprintf(stream, "%c", RDELIM);
 		}
-	}
+}
 
-void
-rprint(tok)
-token *tok;
-	{
+void rprint(token *tok)
+{
 	outcolumn = level = 0;
 	rprint1(tok);
 	fprintf(stream, ".\n");
-	}
+}
 
-void
-rprint1(tok)
-token *tok;
-	{
+void rprint1(token *tok)
+{
 	token *p;
 	char *rule;
 
@@ -124,22 +116,18 @@ tail_recursion:
 		need(1, stream);
 		fprintf(stream, ")");
 		}
-	}
+}
 
 int magic = 0;
 
-void
-tree(tok)
-token *tok;
-	{
+void tree(token *tok)
+{
 	magic = 0;
 	tree1(tok);
-	}
+}
 
-void
-tree1(tok)
-token *tok;
-	{
+void tree1(token *tok)
+{
 	token *child;
 	char *name;
 
@@ -160,7 +148,7 @@ token *tok;
 		for (child = tok->downleft; child; child = child->right)
 			fprintf(stream, "\t%d", child->type);
 	fprintf(stream, "\n");
-	}
+}
 
 void yprint1(token *tok, int level)
 {
@@ -184,36 +172,29 @@ void yprint(token *tok)
     yprint1(tok, 0);
 }
 
-void
-need(n, stream)
-int n;
-FILE *stream;
-	{
+void need(int n, FILE *stream)
+{
 
 	outcolumn += n;
 	if (outcolumn >= MAXLINE) {
 		fprintf(stream, "\n");
 		outcolumn = n;
 		}
-	}
+}
 
-void
-prologize(p)
-char *p;
-	{
+void prologize(char *p)
+{
 	if (!p) return;
 	while (*p) {
 		if (*p == '\'') *p = 'h';
 		if (!isalnum(*p)) *p = '_';
 		p++;
 		}
-	}
+}
 
-void
-downcase(p)
-char *p;
-	{
+void downcase(char *p)
+{
 	if (!p) return;
 	while (*p)
 		*p++ = tolower(*p);
-	}
+}

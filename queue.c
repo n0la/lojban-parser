@@ -21,9 +21,8 @@ static token *pushback = NULL;
 static token *head = NULL;
 static token *tail = NULL;
 
-token *
-gettoken()
-	{
+token *gettoken(void)
+{
 	token *result;
 
 	if (pushback) {
@@ -39,12 +38,10 @@ gettoken()
 			}
 		}
 	return result;
-	}
+}
 
-token *
-fail(tok)
-token *tok;
-	{
+token *fail(token *tok)
+{
 	int type;
 
 	type=tok->type;
@@ -58,12 +55,10 @@ token *tok;
 		pushback = head;
 		}
 	return NULL;
-	}
+}
 
-void
-release(tok)
-token *tok;
-	{
+void release(token *tok)
+{
 	token *p;
 	token *nextp;
 	int type;
@@ -84,25 +79,19 @@ token *tok;
 			}
 		destroy(tok);
 		}
-	}
+}
 
-token *
-is(type, result)
-int type;
-token *result;
-	{
+token *is(int type, token *result)
+{
 	token *tok;
 
 	tok = gettoken();
 	add(result, tok);
 	return (tok->type == type) ? tok : NULL;
-	}
+}
 
-token *
-cpd_reduce(tok, type)
-token *tok;
-int type;
-	{
+token *cpd_reduce(token *tok, int type)
+{
 	if (tok) {
 		tok->type = type;
 		if (D_cpd_reduce)
@@ -110,4 +99,4 @@ int type;
 				rulename(type), type);
 		}
 	return tok;
-	}
+}

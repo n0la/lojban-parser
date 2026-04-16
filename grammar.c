@@ -168,6 +168,7 @@
 #define YYSTYPE int
 #endif
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifndef __cplusplus
 #ifndef __STDC__
@@ -1758,6 +1759,10 @@ while (0)
 
 #define YYTERROR	1
 #define YYERRCODE	256
+
+extern int yylex(void);
+extern void yyerror(char *msg);
+extern int yyparse(void);
 
 #ifndef YYPURE
 #define YYLEX		yylex()

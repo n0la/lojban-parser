@@ -3,6 +3,7 @@
 
 # include "lojban.h"
 # include <time.h>
+# include <unistd.h>
 
 /* This module provides the routines required by the YACC parser.
 It also contains the main routine which drives the whole program.
@@ -27,6 +28,8 @@ yyerror() is invoked by the parser when an error (either a real error,
 or else an elided terminator) is detected.  It stashes away the next token,
 the current line, and the current column.
 */
+
+extern int yyparse(void);
 
 static token *results = NULL;
 static int errline;
@@ -54,9 +57,8 @@ int rulemode = 0;
 int singlemode = 0;
 int yamlmode = 0;
 
-int
-yylex()
-	{
+int yylex(void)
+{
 	extern YYSTYPE yylval;
 
 	yylval = compound();
@@ -66,13 +68,10 @@ yylex()
 		print(yylval);
 		}
 	return yylval->type;
-	}
+}
 
-YYSTYPE
-newnode(type, n1)
-int type;
-YYSTYPE n1;
-	{
+YYSTYPE newnode(int type, YYSTYPE n1)
+{
 	YYSTYPE result;
 
 	if (0 && simplemode)	/* not yet implemented */
@@ -85,13 +84,10 @@ YYSTYPE n1;
 			printf("reducing to %s\n", rulename(type));
 		}
 	return result;
-	}
+}
 
-YYSTYPE
-node1(type, n1)
-int type;
-YYSTYPE n1;
-	{
+YYSTYPE node1(int type, YYSTYPE n1)
+{
 	if (singlemode) {
 		YYSTYPE result;
 		result = newnode(type, n1);
@@ -102,49 +98,38 @@ YYSTYPE n1;
 			n1->type = type;
 		return n1;
 		}
-	}
+}
 
-YYSTYPE
-node2(type, n1, n2)
-int type;
-YYSTYPE n1, n2;
-	{
+YYSTYPE node2(int type, YYSTYPE n1, YYSTYPE n2)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
 	return result;
-	}
+}
 
-YYSTYPE
-node3(type, n1, n2, n3)
-int type;
-YYSTYPE n1, n2, n3;
-	{
+YYSTYPE node3(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
 	add(result, n3);
 	return result;
-	}
+}
 
-YYSTYPE
-node4(type, n1, n2, n3, n4)
-int type;
-YYSTYPE n1, n2, n3, n4;
-	{
+YYSTYPE node4(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3, YYSTYPE n4)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
 	add(result, n3);
 	add(result, n4);
 	return result;
-	}
+}
 
 YYSTYPE
-node5(type, n1, n2, n3, n4, n5)
-int type;
-YYSTYPE n1, n2, n3, n4, n5;
-	{
+node5(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3, YYSTYPE n4, YYSTYPE n5)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
@@ -152,13 +137,10 @@ YYSTYPE n1, n2, n3, n4, n5;
 	add(result, n4);
 	add(result, n5);
 	return result;
-	}
+}
 
-YYSTYPE
-node6(type, n1, n2, n3, n4, n5, n6)
-int type;
-YYSTYPE n1, n2, n3, n4, n5, n6;
-	{
+YYSTYPE node6(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3, YYSTYPE n4, YYSTYPE n5, YYSTYPE n6)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
@@ -167,13 +149,10 @@ YYSTYPE n1, n2, n3, n4, n5, n6;
 	add(result, n5);
 	add(result, n6);
 	return result;
-	}
+}
 
-YYSTYPE
-node7(type, n1, n2, n3, n4, n5, n6, n7)
-int type;
-YYSTYPE n1, n2, n3, n4, n5, n6, n7;
-	{
+YYSTYPE node7(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3, YYSTYPE n4, YYSTYPE n5, YYSTYPE n6, YYSTYPE n7)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
@@ -183,13 +162,10 @@ YYSTYPE n1, n2, n3, n4, n5, n6, n7;
 	add(result, n6);
 	add(result, n7);
 	return result;
-	}
+}
 
-YYSTYPE
-node8(type, n1, n2, n3, n4, n5, n6, n7, n8)
-int type;
-YYSTYPE n1, n2, n3, n4, n5, n6, n7, n8;
-	{
+YYSTYPE node8(int type, YYSTYPE n1, YYSTYPE n2, YYSTYPE n3, YYSTYPE n4, YYSTYPE n5, YYSTYPE n6, YYSTYPE n7, YYSTYPE n8)
+{
 	YYSTYPE result;
 	result = newnode(type, n1);
 	add(result, n2);
@@ -200,12 +176,10 @@ YYSTYPE n1, n2, n3, n4, n5, n6, n7, n8;
 	add(result, n7);
 	add(result, n8);
 	return result;
-	}
+}
 
-YYSTYPE
-elidable(type)
-int type;
-	{
+YYSTYPE elidable(int type)
+{
 	YYSTYPE result;
 	char *text;
 
@@ -223,30 +197,24 @@ int type;
 	if (D_elidable)
 		printf("inserting elided %s (%d)\n", text, type);
 	return result;
-	}
+}
 
-YYSTYPE
-toplevel(n1)
-YYSTYPE n1;
-	{
+YYSTYPE toplevel(YYSTYPE n1)
+{
 	results = n1;
 	return n1;
-	}
+}
 
-yyerror(msg)
-char *msg;
-	{
+void yyerror(char *msg)
+{
 	errline = line;
 	errcol = column;
 	errlastreduce = lastreduce;
-	}
+}
 
 
-int
-main(argc, argv)
-int argc;
-char **argv;
-	{
+int main(int argc, char **argv)
+{
 	stream = stdout;
 	setflags(argv);
 	interactive = isatty(0);
@@ -276,12 +244,10 @@ char **argv;
 		return 1;
 		}
 	return 0;
-	}
+}
 
-void
-setflags(argv)
-char **argv;
-	{
+void setflags(char **argv)
+{
 	char *arg;
 
 	for (argv++; *argv; argv++)
@@ -315,4 +281,4 @@ char **argv;
 			}
 		else if ((*argv)[0] != '-')
 			freopen(*argv, "r", stdin);
-	}
+}

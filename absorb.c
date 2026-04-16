@@ -10,9 +10,8 @@ UI, CAI, Y, DAhO, FUhE, or FUhO.  UI and CAI can also have a
 following NAI, which is checked for and absorbed as well.
 */
 
-token *
-absorb()
-	{
+token *absorb(void)
+{
 	static token *cache = NULL;
 	token *tok;
 	token *result;
@@ -35,12 +34,10 @@ absorb()
 		add(result, cache);
 		}
 	return (result) ? result : tok;
-	}
+}
 
-int
-isindicator(tok)
-token *tok;
-	{
+int isindicator(token *tok)
+{
 	switch (tok->type) {
 	case UI_612:
 	case CAI_515:
@@ -53,4 +50,4 @@ token *tok;
 	default:
 		return 0;
 		}
-	}
+}

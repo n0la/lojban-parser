@@ -9,9 +9,8 @@ the last token was not FAhO, a FAhO is generated.  After any FAhO, whether
 real or generated, only EOT tokens will be returned.
 */
 
-token *
-termin()
-	{
+token *termin(void)
+{
 	token *tok;
 	static int lasttype = -1;
 
@@ -29,4 +28,4 @@ termin()
 		}
 	lasttype = tok->type;
 	return tok;
-	}
+}

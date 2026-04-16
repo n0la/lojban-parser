@@ -13,9 +13,8 @@ created from the free store.  See lojban.h for an explanation of this
 object.
 */
 
-token *
-lex()
-	{
+token *lex(void)
+{
 	static char *word = NULL;
 	token *result;
 	char *p;
@@ -60,12 +59,10 @@ lex()
 		print(result);
 		}
 	return result;
-	}
+}
 
-int
-iscmene(p)
-char *p;
-	{
+int iscmene(char *p)
+{
 	if (!isC(p[strlen(p)-1])) return 0;
 	cmenecheck(p, "la");
 	cmenecheck(p, "doi");
@@ -73,12 +70,10 @@ char *p;
 	cmenecheck(p, "w");
 	cmenecheck(p, "q");
 	return 1;
-	}
+}
 
-void
-cmenecheck(p, bad)
-char *p; char *bad;
-	{
+void cmenecheck(char *p, char *bad)
+{
 	char *pos;
 	int badlen;
 
@@ -98,10 +93,8 @@ char *p; char *bad;
 	}
 	}
 
-int
-isbrivla(p)
-char *p;
-	{
+int isbrivla(char *p)
+{
 	int lastC;
 
 	lastC = 0;
@@ -112,12 +105,10 @@ char *p;
 		else lastC = 0;
 		}
 	return 0;
-	}
+}
 
-char *
-newstring(n)
-int n;
-	{
+char *newstring(int n)
+{
 	char *result;
 	static char *master;
 	static int size = 0;
@@ -131,16 +122,13 @@ int n;
 	master += n;
 	size -= n;
 	return result;
-	}
+}
 
-void
-memcheck(p, err)
-char *p;
-char *err;
-	{
+void memcheck(void *p, char *err)
+{
 	if (!p) {
 		fprintf(stderr, "Out of %s memory at line %d column %d\n",
 			err, line, column);
 		exit(1);
-		}
 	}
+}
